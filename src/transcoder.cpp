@@ -3,8 +3,8 @@
  * @brief Minimal video transcoder implementation
  */
 
-#include "../include/transcoder.h"
-#include "../include/audio_sync.h"
+#include "transcoder.h"
+#include "audio_sync.h"
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>

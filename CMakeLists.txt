@@ -13,7 +13,6 @@ pkg_check_modules(FFMPEG REQUIRED libavformat libavcodec libavutil libswscale li
 set(SOURCES
     src/main.cpp
     src/transcoder.cpp
-    src/audio_sync.cpp
 )
 
 # Create executable
