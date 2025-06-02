@@ -4,7 +4,7 @@
  */
 
 #include "transcoder.h"
-#include "audio_sync.h"
+#include "speech_sync.h"
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
@@ -185,10 +185,10 @@ std::pair<std::filesystem::path, std::filesystem::path> VideoTranscoder::findAud
 double VideoTranscoder::detectSyncOffset(const std::filesystem::path& videoFile,
                                         const std::filesystem::path& audioFile) {
     
-    AudioSync audioSync;
-    audioSync.setVerbose(m_verbose);
+    SpeechSync speechSync;
+    speechSync.setVerbose(m_verbose);
     
-    return audioSync.findOffset(videoFile, audioFile);
+    return speechSync.findOffset(videoFile, audioFile);
 }
 
 bool VideoTranscoder::transcodeVideo(const std::filesystem::path& videoFile,

@@ -13,6 +13,7 @@ pkg_check_modules(FFMPEG REQUIRED libavformat libavcodec libavutil libswscale li
 set(SOURCES
     src/main.cpp
     src/transcoder.cpp
+    src/speech_sync.cpp
 )
 
 # Create executable
@@ -21,6 +22,7 @@ add_executable(video_transcoder ${SOURCES})
 # Include directories
 target_include_directories(video_transcoder PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${FFMPEG_INCLUDE_DIRS}
 )
 

@@ -59,6 +59,7 @@ double AudioSync::findOffset(const std::filesystem::path& videoFile,
     // Now test different audio extraction windows to find where the pattern matches
     double bestOffset = 0.0;
     double bestScore = 0.0;
+    double bestAudioStartTime = 0.0;  // Track which audio start time gave best match
     
     if (m_verbose) {
         std::cout << "  🔍 Testing audio windows for pattern match..." << std::endl;
@@ -82,19 +83,27 @@ double AudioSync::findOffset(const std::filesystem::path& videoFile,
         
         if (score > bestScore) {
             bestScore = score;
-            // Calculate offset: how much earlier/later is audio compared to video
-            bestOffset = audioPattern.startTime - videoPattern.startTime;
+            bestAudioStartTime = audioStart;  // Remember the audio extraction start time
+            
+            // CORRECT OFFSET CALCULATION:
+            // If we extracted video from videoStart and audio from audioStart,
+            // and the patterns match, then:
+            // offset = audioStart - videoStart
+            bestOffset = audioStart - videoStart;
         }
         
         if (m_verbose && score > 0.5) {
             std::cout << "    Audio start " << audioStart << "s: pattern score " << score 
-                      << " (offset would be " << (audioPattern.startTime - videoPattern.startTime) << "s)" << std::endl;
+                      << " (offset would be " << (audioStart - videoStart) << "s)" << std::endl;
         }
     }
     
     if (m_verbose) {
         std::cout << "  🎯 Best pattern match score: " << bestScore << std::endl;
-        std::cout << "  🎯 Best offset: " << bestOffset << "s" << std::endl;
+        std::cout << "  🎯 Best audio start time: " << bestAudioStartTime << "s" << std::endl;
+        std::cout << "  🎯 Video start time: " << videoStart << "s" << std::endl;
+        std::cout << "  🎯 Calculated offset: " << bestOffset << "s" << std::endl;
+        std::cout << "  📝 This means: audio needs to be shifted " << bestOffset << "s relative to video" << std::endl;
     }
     
     if (bestScore < 0.3) {
