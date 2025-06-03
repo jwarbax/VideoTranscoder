@@ -643,11 +643,11 @@ SyncResult SpectralCorrelationSync::synchronize(const AudioFeatures& features1,
     size_t maxLag = std::min(centroid1.size(), centroid2.size()) / 2;
     float bestCorr = -1.0f;
     int bestLag = 0;
-    
+
     for (int lag = -static_cast<int>(maxLag); lag <= static_cast<int>(maxLag); ++lag) {
         float correlation = 0.0f;
         int count = 0;
-        
+
         for (size_t i = 0; i < centroid1.size(); ++i) {
             int j = static_cast<int>(i) + lag;
             if (j >= 0 && j < static_cast<int>(centroid2.size())) {
@@ -655,7 +655,7 @@ SyncResult SpectralCorrelationSync::synchronize(const AudioFeatures& features1,
                 count++;
             }
         }
-        
+
         if (count > 0) {
             correlation /= count;
             if (correlation > bestCorr) {
@@ -664,10 +664,10 @@ SyncResult SpectralCorrelationSync::synchronize(const AudioFeatures& features1,
             }
         }
     }
-    
-    result.offset = bestLag * hopSize / features1.sampleRate;
+
+    result.offset = static_cast<double>(bestLag) * static_cast<double>(hopSize) / features1.sampleRate;
     result.confidence = std::max(0.0f, bestCorr);
-    
+
     auto end = std::chrono::high_resolution_clock::now();
     result.computationTime = std::chrono::duration<double>(end - start).count();
     

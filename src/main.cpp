@@ -49,6 +49,7 @@ void printUsage(const char* programName) {
               << std::endl;
 }
 
+
 void runBenchmark() {
     std::cout << "\n🏁 Running Performance Benchmark..." << std::endl;
     std::cout << "====================================" << std::endl;
